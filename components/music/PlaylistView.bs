@@ -1,4 +1,5 @@
 import "pkg:/source/enums/ColorPalette.bs"
+import "pkg:/source/enums/KeyCode.bs"
 import "pkg:/source/enums/TaskControl.bs"
 import "pkg:/source/utils/misc.bs"
 
@@ -12,8 +13,13 @@ sub init()
     m.infoGroup = m.top.FindNode("infoGroup")
     m.songListRect = m.top.FindNode("songListRect")
     m.songListRect.color = ColorPalette.ELEMENTBACKGROUND
+    m.buttonGrp = m.top.findNode("buttons")
 
     m.playlist.focusBitmapBlendColor = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    m.randomPlayback = m.top.findNode("randomPlayback")
+    if isValid(m.randomPlayback)
+        m.randomPlayback.focusBackground = chainLookupReturn(m.global.session, "user.settings.colorCursor", ColorPalette.HIGHLIGHT)
+    end if
 
     m.playlist.observeField("doneLoading", "onDoneLoading")
 
@@ -88,6 +94,27 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
+
+    if isValid(m.buttonGrp) and m.buttonGrp.isInFocusChain()
+        if key = KeyCode.OK
+            m.randomPlayback.selected = not m.randomPlayback.selected
+            return true
+        end if
+
+        if key = KeyCode.RIGHT or key = KeyCode.DOWN
+            m.randomPlayback.focus = false
+            m.playlist.setFocus(true)
+            m.top.lastFocus = m.playlist
+            return true
+        end if
+    end if
+
+    if m.playlist.hasFocus() and key = KeyCode.LEFT
+        m.randomPlayback.focus = true
+        m.randomPlayback.setFocus(true)
+        m.top.lastFocus = m.buttonGrp
+        return true
+    end if
 
     if key = "options"
         selectedItem = m.playlist.content.getChild(m.playlist.itemFocused)
