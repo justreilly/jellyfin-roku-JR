@@ -1106,6 +1106,24 @@ sub onInstantMixSelectedEvent(msg)
     end if
 end sub
 
+' User has selected random playback on a playlist
+sub onPlaylistRandomPlaybackSelectedEvent(msg)
+    screenContent = msg.getRoSGNode()
+    startLoadingSpinner()
+
+    if not isChainValid(screenContent, "listData")
+        stopLoadingSpinner()
+        return
+    end if
+
+    playlistItems = screenContent.listData.getChildren(-1, 0)
+    if isValidAndNotEmpty(playlistItems)
+        MainAction.playItem(shuffleArray(playlistItems), { method: "set", resetShuffle: true })
+    else
+        stopLoadingSpinner()
+    end if
+end sub
+
 sub onSearch_valueEvent(msg)
     query = msg.getRoSGNode().search_value
     group = m.global.sceneManager.callFunc("getActiveScene")

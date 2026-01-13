@@ -16,6 +16,9 @@
           <Text id="numberofsongs" width="450" height="25" />
           <Text id="runtime" width="450" height="25" />
           <Text id="released" width="450" height="25" />
+          <ButtonGroupHoriz id="buttons" itemSpacings="[20]">
+            <IconButton id="randomPlayback" background="#070707" padding="35" icon="pkg:/images/icons/shufflePlay.png" text="Random Playback" height="65" width="260" />
+          </ButtonGroupHoriz>
         </LayoutGroup>
         <LayoutGroup id="infoGroup" layoutDirection="vert" itemSpacings="[15]">
           <Text id="overview" wrap="true" height="310" width="1250" />
@@ -35,5 +38,6 @@
     <field id="pageContent" type="node" onChange="pageContentChanged" />
     <field id="listData" type="node" alias="playlist.PlaylistData" />
     <field id="playlistItemSelected" alias="playlist.itemSelected" />
+    <field id="randomPlaybackSelected" alias="randomPlayback.selected" />
   </interface>
 </component>

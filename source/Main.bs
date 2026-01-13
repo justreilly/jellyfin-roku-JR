@@ -156,6 +156,8 @@ sub Main (args as dynamic) as void
             onSubtitleLanguageButtonSelectedEvent()
         else if isNodeEvent(msg, "playlistItemSelected")
             onPlaylistItemSelectedEvent(msg)
+        else if isNodeEvent(msg, "randomPlaybackSelected")
+            onPlaylistRandomPlaybackSelectedEvent(msg)
         else if isNodeEvent(msg, "playArtistSelected")
             onPlayArtistSelectedEvent(msg)
         else if isNodeEvent(msg, "instantMixSelected")
